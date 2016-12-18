@@ -1,0 +1,62 @@
+@namespace(uri="http://www.univ-nantes.fr/smalluml", prefix="smalluml")
+package smalluml;
+
+abstract class NamedElement {
+  attr String[1] name;
+}
+
+class Type extends NamedElement {
+}
+
+class Real extends Type {
+}
+
+class Integer extends Type {
+}
+
+class String extends Type {
+}
+
+class Infinity extends Type {
+}
+
+class Enumeration extends NamedElement, Type {
+  val String[+] value;
+}
+
+class Class extends NamedElement {
+  val Attribute[*] attributes;
+  val Method[*] methods;
+  ref Class[*] parents;
+}
+
+class Attribute extends NamedElement {
+  val Type[1] typename;
+}
+
+class Method extends NamedElement {
+  val Type returnType;
+  val Attribute[*] parameters;
+}
+
+class Relation extends NamedElement {
+  val Cardinality[1] cardinality;
+  ref Class[1] from;
+  ref Class[1] to;
+}
+
+class Cardinality extends NamedElement {
+  attr int[1] lowerBound = 0;
+  attr int[1] upperBound = -1;
+}
+
+class Package extends NamedElement {
+  val Class[*] ~class;
+  val Relation[*] relation;
+}
+
+class Generalisation extends NamedElement {
+  ref Class[*] parent;
+  ref Class[*] child;
+}
+
