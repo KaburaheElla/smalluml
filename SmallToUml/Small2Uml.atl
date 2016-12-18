@@ -1,0 +1,50 @@
+-- @path smalluml=//model/smalluml.ecore
+-- @path uml=/UML/model/uml.ecore
+
+module Small2UML;
+create OUT : uml from IN : smalluml;
+
+rule NamedElement2NamedElement {
+	from
+		f: smalluml!NamedElement
+	to
+		t: uml!NamedElement (
+			name  <- f.name
+		)
+}
+
+
+
+rule SmallClass2Class {
+	from
+		f: smalluml!Class
+	to
+		t: uml!Class (
+			ownedOperation <- f.methods,
+			superClass <- f.parents,
+			attribute <- f.attributes
+		)
+}
+
+
+
+rule SmallAttribute2Attribute {
+	from
+		f: smalluml!Attribute
+	to
+		t: uml!Property (
+			name <- f.name,
+			type <- f.typedValue
+		)
+}
+
+rule SmallMethod2Operation {
+	from
+		f: smalluml!Method
+	to
+		t: uml!Operation (
+			name <- f.name,
+			type <- f.returnTypedValue,
+			ownedParameter <- f.parameters
+		)
+}
